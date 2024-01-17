@@ -1,17 +1,19 @@
 package api
 
 import (
+	"github.com/evanraisul/book_api/auth"
 	"github.com/evanraisul/book_api/handler"
-	u "github.com/evanraisul/book_api/utils"
+	"github.com/go-chi/chi"
 )
 
-func API() {
+func RoutesAddress(router *chi.Mux) {
 
-	R, _ := u.Utils()
+	authMiddleware := auth.BasicAuth("realm", map[string]string{"admin": "password"})
+	router.Use(authMiddleware)
 
-	R.Post("/api/v1/books", handler.CreateBook)
-	R.Get("/api/v1/books/{id}", handler.GetBook)
-	R.Get("/api/v1/books", handler.ListBooks)
-	R.Put("/api/v1/books/{id}", handler.UpdateBook)
-	R.Delete("/api/v1/books/{id}", handler.DeleteBook)
+	router.Post("/api/v1/books", handler.CreateBook)
+	router.Get("/api/v1/books/{id}", handler.GetBook)
+	router.Get("/api/v1/books", handler.ListBooks)
+	router.Put("/api/v1/books/{id}", handler.UpdateBook)
+	router.Delete("/api/v1/books/{id}", handler.DeleteBook)
 }
