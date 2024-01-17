@@ -14,14 +14,7 @@ var Books = make(map[string]m.Book)
 func CreateBook(w http.ResponseWriter, r *http.Request) {
 	var newBook m.Book
 	if err := json.NewDecoder(r.Body).Decode(&newBook); err != nil {
-		e := m.Error{
-			http.StatusBadRequest,
-			"StatusBadRequest",
-			"Invalid request body",
-		}
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(e)
-		//http.Error(w, "", http.StatusBadRequest)
+		(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Resource not found")
 		return
 	}
 
@@ -33,14 +26,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 		fieldValue := curBook.Field(i)
 
 		if reflect.DeepEqual(fieldValue.Interface(), reflect.Zero(fieldValue.Type()).Interface()) {
-			e := m.Error{
-				http.StatusBadRequest,
-				"StatusBadRequest",
-				"Invalid request body",
-			}
-			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(e)
-			//http.Error(w, "", http.StatusBadRequest)
+			(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Invalid Request")
 			return
 		}
 	}
@@ -54,38 +40,19 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	bookID, err := ulid.Parse(chi.URLParam(r, "id"))
 	if err != nil {
-		e := m.Error{
-			http.StatusBadRequest,
-			"StatusBadRequest",
-			"Invalid handler ID",
-		}
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(e)
+		(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Parsing Error")
 		return
 	}
 
 	var deletedBook m.Book
 	if err := json.NewDecoder(r.Body).Decode(&deletedBook); err != nil {
-		e := m.Error{
-			http.StatusBadRequest,
-			"StatusBadRequest",
-			"Invalid request body",
-		}
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(e)
+		(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Invalid Request Body")
 		return
 	}
 
 	_, exists := Books[bookID.String()]
 	if !exists {
-		e := m.Error{
-			http.StatusNotFound,
-			"StatusBadRequest",
-			"Book not found",
-		}
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode(e)
-
+		(&m.Error{}).GetError(w, http.StatusNotFound, "StatusNotFound", "Book Not Found")
 		return
 	}
 
@@ -101,37 +68,19 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
 	bookID, err := ulid.Parse(chi.URLParam(r, "id"))
 	if err != nil {
-		e := m.Error{
-			http.StatusBadRequest,
-			"StatusBadRequest",
-			"Invalid handler ID",
-		}
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(e)
+		(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Parsing Error")
 		return
 	}
 
 	var updatedBook m.Book
 	if err := json.NewDecoder(r.Body).Decode(&updatedBook); err != nil {
-		e := m.Error{
-			http.StatusBadRequest,
-			"StatusBadRequest",
-			"Invalid request body",
-		}
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(e)
+		(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Invalid request body")
 		return
 	}
 
 	_, exists := Books[bookID.String()]
 	if !exists {
-		e := m.Error{
-			http.StatusNotFound,
-			"StatusNotFound",
-			"Book not found",
-		}
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode(e)
+		(&m.Error{}).GetError(w, http.StatusNotFound, "StatusNotFound", "Book not found")
 		return
 	}
 
@@ -143,14 +92,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 		fieldValue := curBook.Field(i)
 
 		if reflect.DeepEqual(fieldValue.Interface(), reflect.Zero(fieldValue.Type()).Interface()) {
-			e := m.Error{
-				http.StatusBadRequest,
-				"StatusBadRequest",
-				"Invalid request body",
-			}
-			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(e)
-			//http.Error(w, "", http.StatusBadRequest)
+			(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Invalid Request")
 			return
 		}
 	}
@@ -173,27 +115,13 @@ func ListBooks(w http.ResponseWriter, r *http.Request) {
 func GetBook(w http.ResponseWriter, r *http.Request) {
 	bookID, err := ulid.Parse(chi.URLParam(r, "id"))
 	if err != nil {
-		///
-		e := m.Error{
-			http.StatusBadRequest,
-			"StatusBadRequest",
-			"Invalid handler ID",
-		}
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(e)
-		//http.Error(w, "Invalid handler ID", http.StatusBadRequest)
+		(&m.Error{}).GetError(w, http.StatusBadRequest, "StatusBadRequest", "Parsing Error")
 		return
 	}
 
 	book, exists := Books[bookID.String()]
 	if !exists {
-		e := m.Error{
-			http.StatusNotFound,
-			"StatusNotFound",
-			"Invalid handler ID",
-		}
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode(e)
+		(&m.Error{}).GetError(w, http.StatusNotFound, "StatusNotFound", "Invalid handler ID")
 		return
 	}
 

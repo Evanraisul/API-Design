@@ -7,9 +7,11 @@ import (
 
 func API() {
 
-	u.R.Post("/api/v1/books", handler.CreateBook)
-	u.R.Get("/api/v1/books/{id}", handler.GetBook)
-	u.R.Get("/api/v1/books", handler.ListBooks)
-	u.R.Put("/api/v1/books/{id}", handler.UpdateBook)
-	u.R.Delete("/api/v1/books/{id}", handler.DeleteBook)
+	R, _ := u.Utils()
+
+	R.Post("/api/v1/books", handler.CreateBook)
+	R.Get("/api/v1/books/{id}", handler.GetBook)
+	R.Get("/api/v1/books", handler.ListBooks)
+	R.Put("/api/v1/books/{id}", handler.UpdateBook)
+	R.Delete("/api/v1/books/{id}", handler.DeleteBook)
 }

@@ -4,5 +4,9 @@ import (
 	"github.com/go-chi/chi"
 )
 
-var R *chi.Mux = chi.NewRouter()
-var Port string = ":8080"
+func Utils() (R *chi.Mux, Port string) {
+	R = chi.NewRouter()
+	Port = ":8080"
+
+	return R, Port
+}
