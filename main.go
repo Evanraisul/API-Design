@@ -1,13 +1,11 @@
+/*
+Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+
+*/
 package main
 
-import (
-	a "github.com/evanraisul/book_api/api"
-	u "github.com/evanraisul/book_api/utils"
-	"net/http"
-)
+import "github.com/evanraisul/book_api/cmd"
 
 func main() {
-
-	a.API()
-	http.ListenAndServe(u.Port, u.R)
+	cmd.Execute()
 }
