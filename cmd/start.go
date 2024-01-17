@@ -6,7 +6,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/evanraisul/book_api/api"
-	"github.com/go-chi/chi"
+	"github.com/evanraisul/book_api/utils"
 	"github.com/spf13/cobra"
 	"net/http"
 )
@@ -22,10 +22,11 @@ var startCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Server Run on Port %s\n", port)
 
-		router := chi.NewRouter()
+		router, _ := utils.Server()
 		api.RoutesAddress(router)
 
 		if err := http.ListenAndServe(":"+port, router); err != nil {
+
 			fmt.Println(err)
 		}
 	},

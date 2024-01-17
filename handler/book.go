@@ -36,7 +36,10 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 	Books[newBook.UUID] = newBook
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(newBook)
+	e := json.NewEncoder(w).Encode(newBook)
+	if e != nil {
+		fmt.Println(e)
+	}
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +67,10 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	delete(Books, bookID.String())
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(deletedBook)
+	e := json.NewEncoder(w).Encode(deletedBook)
+	if e != nil {
+		fmt.Println(e)
+	}
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
@@ -101,7 +107,10 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 	Books[bookID.String()] = updatedBook
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(updatedBook)
+	e := json.NewEncoder(w).Encode(updatedBook)
+	if e != nil {
+		fmt.Println(e)
+	}
 }
 
 func ListBooks(w http.ResponseWriter, r *http.Request) {
@@ -132,5 +141,8 @@ func GetBook(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(book)
+	e := json.NewEncoder(w).Encode(book)
+	if e != nil {
+		fmt.Println(e)
+	}
 }
