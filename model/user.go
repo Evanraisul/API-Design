@@ -1,5 +1,6 @@
 package model
 
-var Users = map[string]string{
-	"test": "secret",
+type User struct {
+	Username string
+	Password string
 }

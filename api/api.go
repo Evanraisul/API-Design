@@ -8,12 +8,15 @@ import (
 
 func RoutesAddress(router *chi.Mux) {
 
-	authMiddleware := auth.BasicAuth("realm", map[string]string{"admin": "password"})
-	router.Use(authMiddleware)
+	//router.Use(MyMiddleware)
+	router.Post("/login", auth.LoginHandler)
 
-	router.Post("/api/v1/books", handler.CreateBook)
-	router.Get("/api/v1/books/{id}", handler.GetBook)
-	router.Get("/api/v1/books", handler.ListBooks)
-	router.Put("/api/v1/books/{id}", handler.UpdateBook)
-	router.Delete("/api/v1/books/{id}", handler.DeleteBook)
+	router.Group(func(r chi.Router) {
+		r.Use(auth.VerifyJWT)
+		r.Post("/api/v1/books", handler.CreateBook)
+		r.Get("/api/v1/books/{id}", handler.GetBook)
+		r.Get("/api/v1/books", handler.ListBooks)
+		r.Put("/api/v1/books/{id}", handler.UpdateBook)
+		r.Delete("/api/v1/books/{id}", handler.DeleteBook)
+	})
 }

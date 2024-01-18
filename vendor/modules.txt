@@ -5,15 +5,9 @@ github.com/go-chi/chi
 ## explicit; go 1.14
 github.com/go-chi/chi/v5
 github.com/go-chi/chi/v5/middleware
-# github.com/go-chi/cors v1.2.1
-## explicit; go 1.14
-github.com/go-chi/cors
-# github.com/go-chi/oauth v0.1.0
-## explicit; go 1.17
-github.com/go-chi/oauth
-# github.com/gofrs/uuid v4.0.0+incompatible
+# github.com/golang-jwt/jwt v3.2.2+incompatible
 ## explicit
-github.com/gofrs/uuid
+github.com/golang-jwt/jwt
 # github.com/inconshreveable/mousetrap v1.1.0
 ## explicit; go 1.18
 github.com/inconshreveable/mousetrap

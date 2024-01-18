@@ -23,7 +23,6 @@ func BasicAuth(realm string, creds map[string]string) func(next http.Handler) ht
 				(&model.Error{}).GetError(w, http.StatusNetworkAuthenticationRequired, "StatusNetworkAuthenticationRequired", "Authentication Failed")
 				return
 			}
-
 			next.ServeHTTP(w, r)
 		})
 	}
