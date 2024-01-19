@@ -11,8 +11,11 @@ func GetNewRoutes() *chi.Mux {
 }
 
 func RoutesAddress(router *chi.Mux) {
+
 	router.Post("/login", auth.LoginHandler)
+
 	router.Group(func(r chi.Router) {
+
 		r.Use(auth.VerifyJWT)
 		r.Post("/api/v1/books", book.CreateBook)
 		r.Get("/api/v1/books/{id}", book.GetBook)

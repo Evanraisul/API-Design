@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -17,5 +18,9 @@ func (e *Error) GetError(w http.ResponseWriter, code int, typ string, msg string
 	e.Message = msg
 
 	w.WriteHeader(http.StatusBadRequest)
-	json.NewEncoder(w).Encode(e)
+	err := json.NewEncoder(w).Encode(e)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 }

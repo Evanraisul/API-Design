@@ -35,7 +35,7 @@ func verifyToken(tokenString string) error {
 	}
 
 	if !token.Valid {
-		return fmt.Errorf("invalid token")
+		return fmt.Errorf("invalid token\n")
 	}
 
 	return nil
@@ -48,7 +48,10 @@ func VerifyJWT(next http.Handler) http.Handler {
 		tokenString := r.Header.Get("Authorization")
 		if tokenString == "" {
 			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Fprint(w, "Missing authorization header")
+			_, err := fmt.Fprint(w, "Missing authorization header\n")
+			if err != nil {
+				fmt.Println(err)
+			}
 			return
 		}
 		tokenString = tokenString[len("Bearer "):]
@@ -56,10 +59,18 @@ func VerifyJWT(next http.Handler) http.Handler {
 		err := verifyToken(tokenString)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Fprint(w, "Invalid token")
+			_, err := fmt.Fprint(w, "Invalid token\n")
+			if err != nil {
+				fmt.Println(err)
+			}
 			return
 		}
-		fmt.Fprint(w, "Welcome to the the protected area/n")
+		/*
+			_, er := fmt.Fprint(w, "Welcome to the the protected area\n")
+			if er != nil {
+				fmt.Println(err)
+			}
+		*/
 		next.ServeHTTP(w, r)
 	})
 }
@@ -74,19 +85,30 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("The user request value %v", u)
+	fmt.Printf("The user request value %v\n", u)
 
 	if u.Username == "admin" && u.Password == "admin" {
 		tokenString, err := CreateToken(u.Username)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Errorf("No username found")
+			err := fmt.Errorf("no username found\n")
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, tokenString)
+		_, er := fmt.Fprint(w, tokenString)
+
+		if er != nil {
+			fmt.Println(er)
+		}
 		return
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Invalid credentials")
+		_, err := fmt.Fprint(w, "Invalid credentials\n")
+
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
