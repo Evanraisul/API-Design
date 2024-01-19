@@ -16,8 +16,7 @@ var port string
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
-	Short: "A brief description of your command",
-	Long:  `A longer description that spans `,
+	Short: "The Book-API Server will Start",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Server Run on Port %s\n", port)
@@ -26,7 +25,7 @@ var startCmd = &cobra.Command{
 		api.RoutesAddress(router)
 
 		if err := http.ListenAndServe(":"+port, router); err != nil {
-			fmt.Errorf("dfgsdfgfgfg %w", err)
+			fmt.Errorf("%w", err)
 		}
 	},
 }
@@ -42,5 +41,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	startCmd.Flags().StringVarP(&port, "port", "p", utils.GetPort(), "Run on Specific Port")
+	startCmd.Flags().StringVarP(&port, "port", "p", utils.DEFAULT_PORT, "Run on Specific Port")
 }

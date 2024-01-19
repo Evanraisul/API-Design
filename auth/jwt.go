@@ -50,7 +50,8 @@ func VerifyJWT(next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusUnauthorized)
 			_, err := fmt.Fprint(w, "Missing authorization header\n")
 			if err != nil {
-				fmt.Println(err)
+				(&model.Error{}).GetError(w, http.StatusUnauthorized, "StatusUnauthorized", "Missing authorization header")
+				return
 			}
 			return
 		}
@@ -61,16 +62,11 @@ func VerifyJWT(next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusUnauthorized)
 			_, err := fmt.Fprint(w, "Invalid token\n")
 			if err != nil {
-				fmt.Println(err)
+				(&model.Error{}).GetError(w, http.StatusUnauthorized, "StatusUnauthorized", "Invalid Token")
+				return
 			}
 			return
 		}
-		/*
-			_, er := fmt.Fprint(w, "Welcome to the the protected area\n")
-			if er != nil {
-				fmt.Println(err)
-			}
-		*/
 		next.ServeHTTP(w, r)
 	})
 }

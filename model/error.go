@@ -3,16 +3,17 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/evanraisul/book_api/utils"
 	"net/http"
 )
 
 type Error struct {
-	ErrorCode int    `json:"errorCode"`
-	ErrorType string `json:"errorType"`
-	Message   string `json:"message"`
+	ErrorCode int             `json:"errorCode"`
+	ErrorType utils.ErrorType `json:"errorType"`
+	Message   string          `json:"message"`
 }
 
-func (e *Error) GetError(w http.ResponseWriter, code int, typ string, msg string) {
+func (e *Error) GetError(w http.ResponseWriter, code int, typ utils.ErrorType, msg string) {
 	e.ErrorCode = code
 	e.ErrorType = typ
 	e.Message = msg
