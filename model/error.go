@@ -7,9 +7,9 @@ import (
 )
 
 type Error struct {
-	ErrorCode int
-	ErrorType string
-	Message   string
+	ErrorCode int    `json:"errorCode"`
+	ErrorType string `json:"errorType"`
+	Message   string `json:"message"`
 }
 
 func (e *Error) GetError(w http.ResponseWriter, code int, typ string, msg string) {

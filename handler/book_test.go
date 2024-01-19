@@ -1,4 +1,4 @@
-package book_test
+package handler_test
 
 import (
 	"bytes"
@@ -71,7 +71,7 @@ func TestCreateBook(t *testing.T) {
 	if e != nil {
 		fmt.Println(e)
 	}
-	///--------------------------------------------
+
 	b1, err2 := io.ReadAll(bytes.NewBuffer(reqJSON))
 	if err2 != nil {
 		t.Fatal(err2)

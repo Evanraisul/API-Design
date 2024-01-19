@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/evanraisul/book_api/api"
+	"github.com/evanraisul/book_api/utils"
 	"github.com/spf13/cobra"
 	"net/http"
 )
@@ -41,6 +42,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-	startCmd.Flags().StringVarP(&port, "port", "p", "8080", "Run on Specific Port")
+	startCmd.Flags().StringVarP(&port, "port", "p", utils.GetPort(), "Run on Specific Port")
 }
