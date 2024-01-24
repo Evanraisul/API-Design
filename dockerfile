@@ -1,5 +1,5 @@
 # Start from the latest golang base image
-FROM golang:latest
+FROM golang:latest as builder
 
 # Add Maintainer Info
 LABEL maintainer="Md. Raisul Islam Evan <evanraisul@gmail.com>"
@@ -17,10 +17,17 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN go build -o book_api
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o book_api .
 
-# Expose port 8080 to the outside world
-#EXPOSE 8080
+######## Start a new stage from scratch #######
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+# Copy the Pre-built binary file from the previous stage
+COPY --from=builder /app/book_api .
 
 # Command to run the executable
 CMD ["./book_api", "start"]
