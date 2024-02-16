@@ -1,20 +1,16 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: book-api
 spec:
   selector:
     matchLabels:
       name: book-api
-  replicas: 3
   template:
     metadata:
       labels:
         name: book-api
     spec:
       containers:
-        - image: evanraisul/book-api
-          name: book-api
-          ports:
-            - containerPort: 4444
-              name: book-api
+        - name: book-api
+          image: evanraisul/book-api

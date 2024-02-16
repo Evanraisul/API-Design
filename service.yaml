@@ -7,5 +7,5 @@ spec:
   ports:
     - port: 4444
   selector:
-    app: book-api
+    name: book-api
 #  clusterIP: None
