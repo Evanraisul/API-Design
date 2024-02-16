@@ -17,3 +17,10 @@ spec:
           image: evanraisul/book-api
           ports:
             - containerPort: 4444
+          volumeMounts:
+            - name: book-api
+              mountPath: /mnt/data
+      volumes:
+        - name: book-api
+          persistentVolumeClaim:
+            claimName: book-api
